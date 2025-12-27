@@ -1,0 +1,67 @@
+[gd_scene load_steps=7 format=3 uid="uid://h6p1qlao4hx1"]
+
+[ext_resource type="Script" uid="uid://c7q6q2jb41pdr" path="res://Scripts/Player_Scripts/Player_Main.gd" id="1_dewec"]
+[ext_resource type="Script" uid="uid://dy7oq8r85an3r" path="res://Scripts/State_Machine/Finite_State_Machine.gd" id="2_gntrk"]
+[ext_resource type="Script" uid="uid://cagweoxjs800e" path="res://Scripts/Player_Scripts/States/Player_Idle.gd" id="3_dewec"]
+[ext_resource type="Script" uid="uid://cymqthxf0rhv5" path="res://Scripts/Player_Scripts/States/Player_Move.gd" id="4_5ixxa"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_dewec"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_5ixxa"]
+points = PackedVector3Array(-0.125207, -0.532801, -0.480507, 0.0227831, 0.47607, 0.498884, 0.169713, 0.559144, 0.464172, 0.231051, -0.803591, 0.320455, 0.40741, 0.651043, -0.243523, -0.482789, 0.594843, 0.0822132, -0.362868, -0.682312, 0.289697, 0.469044, -0.654529, -0.0662713, -0.127444, 0.842701, -0.338103, -0.393435, -0.683942, -0.244717, 0.438255, 0.623309, 0.200849, 0.0841477, 0.977454, 0.114795, -0.0682023, -0.976458, -0.12927, 0.20055, -0.563129, -0.451454, -0.185527, 0.595453, -0.453475, -0.273363, 0.592268, 0.407754, -0.00693649, -0.476823, 0.49966, 0.375821, -0.588614, 0.316955, 0.111579, 0.563059, -0.481177, -0.41725, 0.527866, -0.270497, -0.484546, -0.596972, -0.0665097, -0.279747, 0.908561, 0.0533361, -0.250197, -0.880712, 0.205319, 0.263647, -0.902771, -0.127394, 0.293368, 0.871526, -0.157196, 0.373412, -0.526319, -0.328246, 0.499663, 0.476641, -0.00688856, 0.0531056, 0.875001, 0.324703, -0.154543, -0.590854, 0.465879, -0.0972799, -0.782358, -0.398188, -0.387649, -0.498171, 0.31565, -0.30068, -0.587995, -0.388901)
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_dewec")
+SENSITIVITY = null
+health = null
+flipped_horizontal = null
+
+[node name="DebugViewPort" type="SubViewportContainer" parent="."]
+offset_right = 393.0
+offset_bottom = 218.0
+stretch = true
+
+[node name="Node3D" type="Node3D" parent="DebugViewPort"]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="DebugViewPort/Node3D"]
+offset_left = 135.0
+offset_top = 198.0
+offset_right = 260.0
+offset_bottom = 290.0
+text = "DEBUG CAMERA"
+fit_content = true
+
+[node name="SubviewPort" type="SubViewport" parent="DebugViewPort"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(393, 218)
+render_target_update_mode = 4
+
+[node name="DebugCam" type="Camera3D" parent="DebugViewPort/SubviewPort"]
+transform = Transform3D(-0.989569, 0.0664605, -0.127817, 0, 0.887228, 0.461331, 0.144063, 0.456518, -0.877973, -0.573545, 3.02488, -3.08215)
+current = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_dewec")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("ConvexPolygonShape3D_5ixxa")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.67101, 0)
+
+[node name="FirstPersonCamera" type="Camera3D" parent="Head"]
+
+[node name="FiniteStateMachine" type="Node" parent="."]
+script = ExtResource("2_gntrk")
+metadata/_custom_type_script = "uid://dy7oq8r85an3r"
+
+[node name="Idle" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("3_dewec")
+metadata/_custom_type_script = "uid://cagweoxjs800e"
+
+[node name="Moving" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("4_5ixxa")
+metadata/_custom_type_script = "uid://cymqthxf0rhv5"
